@@ -31,7 +31,7 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Th3Mouk\\YahooWeatherAPI\\": ""
+            "Th3Mouk\\YahooWeatherAPI\\": "src/"
         }
     },
     "extra": {
