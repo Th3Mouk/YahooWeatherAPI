@@ -3,7 +3,7 @@ Yahoo Weather API
 
 This PHP library providing a simple way to communicate with Yahoo Weather API.
 
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/4ad02cc8-b470-46e0-a40d-4f23e5a4b1b4/mini.png)](https://insight.sensiolabs.com/projects/4ad02cc8-b470-46e0-a40d-4f23e5a4b1b4) [![Latest Stable Version](https://poser.pugx.org/th3mouk/yahoo-weather-api/v/stable)](https://packagist.org/packages/th3mouk/yahoo-weather-api) [![Total Downloads](https://poser.pugx.org/th3mouk/yahoo-weather-api/downloads)](https://packagist.org/packages/th3mouk/yahoo-weather-api) [![Latest Unstable Version](https://poser.pugx.org/th3mouk/yahoo-weather-api/v/unstable)](https://packagist.org/packages/th3mouk/yahoo-weather-api) [![License](https://poser.pugx.org/th3mouk/yahoo-weather-api/license)](https://packagist.org/packages/th3mouk/yahoo-weather-api)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/4ad02cc8-b470-46e0-a40d-4f23e5a4b1b4/mini.png)](https://insight.sensiolabs.com/projects/4ad02cc8-b470-46e0-a40d-4f23e5a4b1b4) [![Latest Stable Version](https://poser.pugx.org/th3mouk/yahoo-weather-api/v/stable)](https://packagist.org/packages/th3mouk/yahoo-weather-api) [![Total Downloads](https://poser.pugx.org/th3mouk/yahoo-weather-api/downloads)](https://packagist.org/packages/th3mouk/yahoo-weather-api) [![Build Status](https://travis-ci.org/Th3Mouk/YahooWeatherAPI.svg?branch=master)](https://travis-ci.org/Th3Mouk/YahooWeatherAPI) [![Latest Unstable Version](https://poser.pugx.org/th3mouk/yahoo-weather-api/v/unstable)](https://packagist.org/packages/th3mouk/yahoo-weather-api) [![License](https://poser.pugx.org/th3mouk/yahoo-weather-api/license)](https://packagist.org/packages/th3mouk/yahoo-weather-api)
 
 ## Installation
 
