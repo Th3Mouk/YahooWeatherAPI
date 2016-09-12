@@ -10,7 +10,7 @@
 
 namespace Th3Mouk\YahooWeatherAPI;
 
-use Goutte\Client;
+use Goutte\Client as GoutteClient;
 use Th3Mouk\YahooWeatherAPI\Query\Query;
 
 class YahooWeatherAPI implements YahooWeatherAPIInterface
@@ -21,13 +21,28 @@ class YahooWeatherAPI implements YahooWeatherAPIInterface
     protected $client;
 
     /**
-     * @var array Last response from API
+     * @var array last response from API
      */
     protected $lastResponse;
 
+    /**
+     * @var string last woeid explicitly called
+     */
+    protected $woeid;
+
+    /**
+     * @var string last city name explicitly called
+     */
+    protected $city;
+
+    /**
+     * @var string the last url called
+     */
+    protected $yql;
+
     public function __construct()
     {
-        $this->client = new Client();
+        $this->client = new GoutteClient();
     }
 
     /**
@@ -35,29 +50,35 @@ class YahooWeatherAPI implements YahooWeatherAPIInterface
      */
     public function callApiWoeid($woeid = null, $unit = 'c')
     {
-        $woeidUse = ($woeid !== null) ? $woeid : $this->woeid;
-
-        if ($woeidUse === null) {
-            throw new \Exception('Please provide a woeid code', 1);
+        if ($woeid === null && $this->woeid === null) {
+            throw new \Exception('Please provide a woeid code', 400);
         }
 
-        $yql = Query::URL_BASE.urlencode(sprintf(Query::WOEID_QUERY, $woeidUse, $unit));
+        if ($woeid !== null) {
+            $this->woeid = $woeid;
+        }
 
-        return $this->callApi($yql);
+        $this->yql = Query::URL_BASE.urlencode(sprintf(Query::WOEID_QUERY, $this->woeid, $unit));
+
+        return $this->callApi();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function callApiCityName($name = null, $unit = 'c')
+    public function callApiCityName($city = null, $unit = 'c')
     {
-        if ($name === null) {
-            throw new \Exception('Please provide a city\'s name', 1);
+        if ($city === null && $this->city === null) {
+            throw new \Exception('Please provide a city\'s name', 400);
         }
 
-        $yql = Query::URL_BASE.urlencode(sprintf(Query::CITY_NAME_QUERY, $name, $unit));
+        if ($city !== null) {
+            $this->city = $city;
+        }
 
-        return $this->callApi($yql);
+        $this->yql = Query::URL_BASE.urlencode(sprintf(Query::CITY_NAME_QUERY, $this->city, $unit));
+
+        return $this->callApi();
     }
 
     /**
@@ -65,8 +86,12 @@ class YahooWeatherAPI implements YahooWeatherAPIInterface
      */
     public function callApi($yql = null)
     {
-        if ($yql === null) {
-            throw new \Exception('Please provide a YQL request', 1);
+        if ($yql === null && $this->yql) {
+            throw new \Exception('Please provide a YQL request', 400);
+        }
+
+        if ($yql !== null) {
+            $this->yql = $yql;
         }
 
         try {
@@ -108,17 +133,17 @@ class YahooWeatherAPI implements YahooWeatherAPIInterface
     /**
      * Get current temperature.
      *
-     * @param bool $with_unit return or not unit
+     * @param bool $withUnit return or not the unit
      *
      * @return string
      */
-    public function getTemperature($with_unit = false)
+    public function getTemperature($withUnit = false)
     {
         if (!$this->lastResponse || !isset($this->lastResponse['item']['condition']['temp'])) {
             return '';
         }
         $return = $this->lastResponse['item']['condition']['temp'];
-        if ($with_unit) {
+        if ($withUnit) {
             $return .= ' '.$this->lastResponse['units']['temperature'];
         }
 
@@ -156,9 +181,11 @@ class YahooWeatherAPI implements YahooWeatherAPIInterface
     /**
      * get Wind.
      *
+     * @param bool $withUnit return or not the unit
+     *
      * @return array
      */
-    public function getWind($with_unit = false)
+    public function getWind($withUnit = false)
     {
         if (!$this->lastResponse || !isset($this->lastResponse['wind']['speed'])) {
             return array();
@@ -170,10 +197,42 @@ class YahooWeatherAPI implements YahooWeatherAPIInterface
             'speed' => $this->lastResponse['item']['wind']['speed'],
         );
 
-        if ($with_unit) {
+        if ($withUnit) {
             $response['speed'] .= ' '.$this->lastResponse['units']['speed'];
         }
 
         return $response;
+    }
+
+    /**
+     * @param GoutteClient $client
+     */
+    public function setClient(GoutteClient $client)
+    {
+        $this->client = $client;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWoeid()
+    {
+        return $this->woeid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * @return string
+     */
+    public function getYql()
+    {
+        return $this->yql;
     }
 }

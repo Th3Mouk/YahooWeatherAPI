@@ -1,13 +1,8 @@
 {
     "name": "th3mouk/yahoo-weather-api",
     "type": "library",
-    "description": "A PHP library to communicate with Yahoo Weather API.",
-    "keywords": [
-        "yahoo",
-        "weather",
-        "api",
-        "yahoo api"
-    ],
+    "description": "A PHP weather forecast library based on Yahoo Weather API.",
+    "keywords": ["yahoo", "weather", "api", "yahoo api", "forecasts"],
     "license": "MIT",
     "homepage": "https://github.com/Th3Mouk/YahooWeatherAPI",
     "authors": [
@@ -21,17 +16,17 @@
         }
     ],
     "require": {
-        "php": "^5.4|^7.0",
-        "fabpot/goutte": "^2.0"
+        "php": "^5.6 || ^7.0",
+        "fabpot/goutte": "^3.1"
     },
     "require-dev": {
-        "fabpot/php-cs-fixer": "^0.5|^1.0"
+        "phpunit/phpunit": "^5.4.3",
+        "sllh/php-cs-fixer-styleci-bridge": "^2.1"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Th3Mouk\\YahooWeatherAPI\\": "src/"
+            "Th3Mouk\\YahooWeatherAPI\\": "src/",
+            "Th3Mouk\\YahooWeatherAPI\\Tests\\": "tests/"
         }
     },
     "extra": {

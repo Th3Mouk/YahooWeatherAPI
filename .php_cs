@@ -1,5 +1,10 @@
 <?php
 
+require_once __DIR__.'/vendor/sllh/php-cs-fixer-styleci-bridge/autoload.php';
+
+use SLLH\StyleCIBridge\ConfigBridge;
+use Symfony\CS\Fixer\Contrib\HeaderCommentFixer;
+
 $header = <<<EOF
 
 (c) Jean-Baptiste Audebert <audebert.jb@gmail.com>
@@ -10,22 +15,6 @@ file that was distributed with this source code.
 
 EOF;
 
-Symfony\CS\Fixer\Contrib\HeaderCommentFixer::setHeader($header);
+HeaderCommentFixer::setHeader($header);
 
-$finder = Symfony\CS\Finder\DefaultFinder::create()
-    ->in(array(__DIR__))
-    ->exclude(array('Tests/Fixtures'))
-;
-
-return Symfony\CS\Config\Config::create()
-    ->level(Symfony\CS\FixerInterface::SYMFONY_LEVEL)
-    ->fixers(array(
-        'header_comment',
-        'newline_after_open_tag',
-        'ordered_use',
-        'long_array_syntax',
-        'php_unit_construct',
-    ))
-    ->setUsingCache(true)
-    ->finder($finder)
-;
+return ConfigBridge::create();
