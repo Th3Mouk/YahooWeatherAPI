@@ -9,14 +9,14 @@ This PHP library providing a simple way to communicate with Yahoo Weather API.
 
 ## Installation
 
-`composer require th3mouk/yahoo-weather-api ^1.0@dev`
+`composer require th3mouk/yahoo-weather-api ^1.0`
 
 ## Usage
 
 Simply implement the class
 
 ```php
-$service = new YahooWeatherAPI();
+$yahooWeather = new YahooWeatherAPI();
 ```
 
 ### Methods
@@ -24,23 +24,28 @@ $service = new YahooWeatherAPI();
 Get forecasts with a WOEID code :
 
 ```php
-$service->callApiWoeid($woeid = null, $unit = 'c');
+$yahooWeather->callApiWoeid($woeid = null, $unit = 'c');
 ```
 
 Get forecasts with a city name :
 
 ```php
-$service->callApiCityName($name = null, $unit = 'c');
+$yahooWeather->callApiCityName($name = null, $unit = 'c');
 ```
 
 Get forecasts with a [yql request](https://developer.yahoo.com/yql/console/) :
 
 ```php
-$service->callApi($yql = null);
+$yahooWeather->callApi($yql = null);
 ```
 
 ## Thanks
 - To [Jean-Baptiste Audebert](https://github.com/jb18) for the first layer of code
+- To [peter279k](https://github.com/peter279k) for testing  suite
+
+## Contributing
+
+Before commiting, please run `php-cs-fixer fix .` command, and update the test suite. 
 
 ## Please
 
