@@ -10,7 +10,9 @@
 
 namespace Th3Mouk\YahooWeatherAPI;
 
-use Goutte\Client as GoutteClient;
+use GuzzleHttp\Client;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Th3Mouk\YahooWeatherAPI\Query\Query;
 
 class YahooWeatherAPI implements YahooWeatherAPIInterface
@@ -42,7 +44,7 @@ class YahooWeatherAPI implements YahooWeatherAPIInterface
 
     public function __construct()
     {
-        $this->client = new GoutteClient();
+        $this->client = new Client();
     }
 
     /**
@@ -86,7 +88,7 @@ class YahooWeatherAPI implements YahooWeatherAPIInterface
      */
     public function callApi($yql = null)
     {
-        if ($yql === null && $this->yql) {
+        if ($yql === null && empty($this->yql)) {
             throw new \Exception('Please provide a YQL request', 400);
         }
 
@@ -95,14 +97,18 @@ class YahooWeatherAPI implements YahooWeatherAPIInterface
         }
 
         try {
-            $response = $this->client->getClient()->get($yql)->json();
+            $headers = array(
+                'verify' => false,
+            );
+            $response = $this->client->request('GET', $this->yql, $headers);
+            $response = json_decode($response->getBody(), true);
             if (!isset($response['query']['results']['channel']['item']['condition'])) {
                 $this->lastResponse = false;
             } else {
                 $this->lastResponse = $response['query']['results']['channel'];
             }
         } catch (\Exception $e) {
-            $this->lastResponse = false;
+            throw new \Exception("Something error happen, please check your request url whether it's correct.", 400);
         }
 
         return $this->lastResponse;
@@ -192,9 +198,9 @@ class YahooWeatherAPI implements YahooWeatherAPIInterface
         }
 
         $response = array(
-            'chill' => $this->lastResponse['item']['wind']['chill'],
-            'direction' => $this->lastResponse['item']['wind']['direction'],
-            'speed' => $this->lastResponse['item']['wind']['speed'],
+            'chill' => $this->lastResponse['wind']['chill'],
+            'direction' => $this->lastResponse['wind']['direction'],
+            'speed' => $this->lastResponse['wind']['speed'],
         );
 
         if ($withUnit) {
@@ -207,7 +213,7 @@ class YahooWeatherAPI implements YahooWeatherAPIInterface
     /**
      * @param GoutteClient $client
      */
-    public function setClient(GoutteClient $client)
+    public function setClient(Client $client)
     {
         $this->client = $client;
     }
