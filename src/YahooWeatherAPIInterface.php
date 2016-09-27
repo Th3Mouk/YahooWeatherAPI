@@ -1,7 +1,6 @@
 <?php
 
 /*
- * (c) Jean-Baptiste Audebert <audebert.jb@gmail.com>
  * (c) Jérémy Marodon         <marodon.jeremy@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE

@@ -7,16 +7,8 @@
     "homepage": "https://github.com/Th3Mouk/YahooWeatherAPI",
     "authors": [
         {
-            "name": "Jean-Baptiste Audebert",
-            "email": "audebert.jb@gmail.com"
-        },
-        {
             "name": "Jérémy Marodon",
             "email": "marodon.jeremy@gmail.com"
-        },
-        {
-            "name": "Peter Lee",
-            "email": "peter279k@gmail.com"
         }
     ],
     "require": {
