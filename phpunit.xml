@@ -3,19 +3,17 @@
 <phpunit
     colors="true"
     bootstrap="./vendor/autoload.php"
-    type="coverage-text"
-    target="tests/"
     charset="UTF-8">
 
     <testsuites>
         <testsuite name="testing">
-      	    <directory suffix=".php">tests/</directory>
+      	    <directory suffix=".php">./tests/</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory suffix=".php">src/</directory>
+            <directory suffix=".php">./src/</directory>
         </whitelist>
     </filter>
 
