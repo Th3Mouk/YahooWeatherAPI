@@ -37,7 +37,7 @@ before_script:
   - echo "zend_extension=xdebug.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 script:
-  - vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover build/logs/clover.xml
+  - vendor/bin/phpunit
 
 after_script:
   - coveralls -v
