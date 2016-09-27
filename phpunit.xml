@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit
-    backupGlobals="false"
-    backupStaticAttributes="false"
-    convertErrorsToExceptions="true"
-    convertNoticesToExceptions="true"
-    convertWarningsToExceptions="true"
-    processIsolation="false"
     colors="true"
     bootstrap="./vendor/autoload.php"
     type="coverage-text"
@@ -14,14 +8,14 @@
     charset="UTF-8">
 
     <testsuites>
-        <testsuite name="Test Suite">
-      	    <directory suffix=".php">./tests/</directory>
+        <testsuite name="testing">
+      	    <directory suffix=".php">tests/</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory suffix=".php">./src</directory>
+            <directory suffix=".php">src/</directory>
         </whitelist>
     </filter>
 
