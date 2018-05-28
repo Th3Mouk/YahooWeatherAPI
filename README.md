@@ -16,6 +16,10 @@ This PHP library providing a simple way to communicate with Yahoo Weather API.
 Simply implement the class
 
 ```php
+require_once __DIR__ . '/vendor/autoload.php';
+
+use Th3Mouk\YahooWeatherAPI\YahooWeatherAPI;
+
 $yahooWeather = new YahooWeatherAPI();
 ```
 
