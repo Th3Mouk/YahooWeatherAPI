@@ -10,8 +10,6 @@
 namespace Th3Mouk\YahooWeatherAPI;
 
 use GuzzleHttp\Client;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Th3Mouk\YahooWeatherAPI\Query\Query;
 
 class YahooWeatherAPI implements YahooWeatherAPIInterface
