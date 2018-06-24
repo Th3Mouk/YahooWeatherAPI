@@ -15,49 +15,33 @@ use Th3Mouk\YahooWeatherAPI\YahooWeatherAPI;
 
 class YahooWeatherClientTests extends TestCase
 {
-    /** @test */
     public function testCallApiWoeidException()
     {
         $service = new YahooWeatherAPI();
 
         $this->expectException(\Exception::class);
 
-        try {
-            $response = $service->callApiWoeid(null);
-        } catch (\Exception $e) {
-            throw $e;
-        }
+        $service->callApiWoeid(null);
     }
 
-    /** @test */
     public function testCallApiCityNameException()
     {
         $service = new YahooWeatherAPI();
 
         $this->expectException(\Exception::class);
 
-        try {
-            $response = $service->callApiCityName(null);
-        } catch (\Exception $e) {
-            throw $e;
-        }
+        $service->callApiCityName(null);
     }
 
-    /** @test */
     public function testCallApiTestException()
     {
         $service = new YahooWeatherAPI();
 
         $this->expectException(\Exception::class);
 
-        try {
-            $response = $service->callApi(null);
-        } catch (\Exception $e) {
-            throw $e;
-        }
+        $service->callApi(null);
     }
 
-    /** @test */
     public function testCallApiLastRes()
     {
         $errYql = 'https://query.yahooapis.com/v1/public/yql?q=from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text=%22Taipei%22)&format=json&env=store://datatables.org/alltableswithkeys';
@@ -66,76 +50,76 @@ class YahooWeatherClientTests extends TestCase
 
         $this->expectException(\Exception::class);
 
-        try {
-            $response = $service->callApi($errYql);
-        } catch (\Exception $e) {
-            throw $e;
-        }
+        $service->callApi($errYql);
     }
 
-    /** @test */
-    public function setClientTest()
+    public function testSetClient()
     {
         $service = new YahooWeatherAPI();
+
         $response = $service->setClient(new Client());
-        $this->assertSame($response, null);
+
+        $this->assertNull($response);
     }
 
-    /** @test */
-    public function setLastResTest()
+    public function testSetLastRes()
     {
         $service = new YahooWeatherAPI();
 
         $response = $service->setLastResponse(null);
-        $this->assertSame($response, null);
+
+        $this->assertNull($response);
     }
 
-    /** @test */
-    public function callApiWoeidTest()
+    public function testCallApiWoeid()
     {
         $service = new YahooWeatherAPI();
         $response = $service->callApiWoeid(1232345678);
-        $this->assertSame($response, false);
+
+        $this->assertFalse(false);
 
         $response = $service->callApiWoeid(2306179);
         $city = str_replace(' ', '', $response['location']['city']);
         $country = str_replace(' ', '', $response['location']['country']);
         $region = str_replace(' ', '', $response['location']['region']);
-        $this->assertSame($city, 'TaipeiCity');
-        $this->assertSame($country, 'Taiwan');
-        $this->assertSame($region, 'TaipeiCity');
+
+        $this->assertSame('TaipeiCity', $city);
+        $this->assertSame('Taiwan', $country);
+        $this->assertSame('TaipeiCity', $region);
 
         $woeid = 2306179;
         $response = $this->getWoeidTest($service);
-        $this->assertSame($response, $woeid);
+
+        $this->assertSame($woeid, $response);
     }
 
-    /** @test */
-    public function callApiCityNameTest()
+    public function testCallApiCityName()
     {
         $service = new YahooWeatherAPI();
         $response = $service->callApiCityName('Taipei');
         $city = str_replace(' ', '', $response['location']['city']);
         $country = str_replace(' ', '', $response['location']['country']);
         $region = str_replace(' ', '', $response['location']['region']);
-        $this->assertSame($city, 'TaipeiCity');
-        $this->assertSame($country, 'Taiwan');
-        $this->assertSame($region, 'TaipeiCity');
+
+        $this->assertSame('TaipeiCity', $city);
+        $this->assertSame('Taiwan', $country);
+        $this->assertSame('TaipeiCity', $region);
 
         $city = 'Taipei';
         $response = $this->getCityTest($service);
-        $this->assertSame($response, $city);
+
+        $this->assertSame($city, $response);
     }
 
-    /** @test */
-    public function callApiTest()
+    public function testCallApi()
     {
         $service = new YahooWeatherAPI();
         $yql = 'select * from weather.forecast where woeid in (select woeid from geo.places(1) where text="123456789")';
         $url = 'https://query.yahooapis.com/v1/public/yql?q='.$yql.'&format=json&env=store://datatables.org/alltableswithkeys';
         $url = $this->encodeURI($url);
         $response = $service->callApi($url);
-        $this->assertSame($response, false);
+
+        $this->assertFalse($response);
 
         $yql = 'select * from weather.forecast where woeid in (select woeid from geo.places(1) where text="Taipei")';
         $url = 'https://query.yahooapis.com/v1/public/yql?q='.$yql.'&format=json&env=store://datatables.org/alltableswithkeys';
@@ -144,30 +128,30 @@ class YahooWeatherClientTests extends TestCase
         $city = str_replace(' ', '', $response['location']['city']);
         $country = str_replace(' ', '', $response['location']['country']);
         $region = str_replace(' ', '', $response['location']['region']);
-        $this->assertSame($city, 'TaipeiCity');
-        $this->assertSame($country, 'Taiwan');
-        $this->assertSame($region, 'TaipeiCity');
+
+        $this->assertSame('TaipeiCity', $city);
+        $this->assertSame('Taiwan', $country);
+        $this->assertSame('TaipeiCity', $region);
 
         $response = $this->getYqlTest($service);
-        $this->assertSame($response, $url);
+
+        $this->assertSame($url, $response);
     }
 
-    /** @test */
-    public function getLastResTest()
+    public function testGetLastRes()
     {
         $service = new YahooWeatherAPI();
-
         $service->setLastResponse($this->getResponseData());
-
         $response = $service->getLastResponse(false);
-        $this->assertSame(is_array($response), true);
+
+        $this->assertInternalType('array', $response);
 
         $response = $service->getLastResponse(true);
-        $this->assertSame(is_array($response), false);
+
+        $this->assertInternalType('string', $response);
     }
 
-    /** @test */
-    public function getTemperatureTest()
+    public function testGetTemperature()
     {
         $service = new YahooWeatherAPI();
         $response = $this->getResponseData();
@@ -176,24 +160,27 @@ class YahooWeatherClientTests extends TestCase
         $service->setLastResponse(null);
         $service->getLastResponse(true);
         $response = $service->getTemperature(true);
-        $this->assertSame($response, '');
+
+        $this->assertSame('', $response);
 
         $noTemp = $storeRes;
         $noTemp['item']['condition']['temp'] = null;
         $service->setLastResponse($noTemp);
         $response = $service->getTemperature(false);
-        $this->assertSame($response, '');
+
+        $this->assertSame('', $response);
 
         $service->setLastResponse($storeRes);
         $response = $service->getTemperature(true);
-        $this->assertSame(is_string($response), true);
 
-        $response = $service->getTemperature(false);
-        $this->assertSame(is_string((int) $response), false);
+        $this->assertInternalType('string', $response);
+
+        $response = (int) $service->getTemperature(false);
+
+        $this->assertInternalType('integer', $response);
     }
 
-    /** @test */
-    public function getLocationTest()
+    public function testGetLocation()
     {
         $service = new YahooWeatherAPI();
         $response = $this->getResponseData();
@@ -201,23 +188,24 @@ class YahooWeatherClientTests extends TestCase
 
         $service->setLastResponse(null);
         $response = $service->getLocation();
-        $this->assertSame($response, '');
+
+        $this->assertSame('', $response);
 
         $noCity = $storeRes;
         $noCity['location']['city'] = null;
         $service->setLastResponse($noCity);
         $response = $service->getLocation();
-        $this->assertSame($response, '');
 
+        $this->assertSame('', $response);
 
         $service->setLastResponse($storeRes);
         $response = $service->getLocation();
         $city = str_replace(' ', '', $response);
-        $this->assertSame($city, 'TaipeiCity');
+
+        $this->assertSame('TaipeiCity', $city);
     }
 
-    /** @test */
-    public function getForecastTest()
+    public function testGetForecast()
     {
         $service = new YahooWeatherAPI();
         $response = $this->getResponseData();
@@ -225,21 +213,23 @@ class YahooWeatherClientTests extends TestCase
 
         $service->setLastResponse(null);
         $response = $service->getForecast();
-        $this->assertSame(count($response), 0);
+
+        $this->assertCount(0, $response);
 
         $noForecast = $storeRes;
         $noForecast['item']['forecast'] = null;
         $service->setLastResponse($noForecast);
         $response = $service->getForecast();
-        $this->assertSame(count($response), 0);
+
+        $this->assertCount(0, $response);
 
         $service->setLastResponse($storeRes);
         $response = $service->getForecast();
-        $this->assertSame(count($response), 10);
+
+        $this->assertCount(10, $response);
     }
 
-    /** @test */
-    public function getWindTest()
+    public function testGetWind()
     {
         $service = new YahooWeatherAPI();
         $response = $this->getResponseData();
@@ -247,13 +237,15 @@ class YahooWeatherClientTests extends TestCase
 
         $service->setLastResponse(null);
         $response = $service->getWind(true);
-        $this->assertSame(count($response), 0);
+
+        $this->assertCount(0, $response);
 
         $noSpeed = $storeRes;
         $noSpeed['wind']['speed'] = null;
         $service->setLastResponse($noSpeed);
         $response = $service->getWind(true);
-        $this->assertSame(count($response), 0);
+
+        $this->assertCount(0, $response);
 
         $service->setLastResponse($storeRes);
         $expectRes = array(
@@ -264,7 +256,8 @@ class YahooWeatherClientTests extends TestCase
 
         $response = $service->getWind(true);
         $expectRes['speed'] .= ' '.$storeRes['units']['speed'];
-        $this->assertSame($response['speed'], $expectRes['speed']);
+
+        $this->assertSame($expectRes['speed'], $response['speed']);
 
         $expectRes = array(
             'chill' => $storeRes['wind']['chill'],
@@ -273,7 +266,8 @@ class YahooWeatherClientTests extends TestCase
         );
 
         $response = $service->getWind(false);
-        $this->assertSame($response['speed'], $expectRes['speed']);
+
+        $this->assertSame($expectRes['speed'], $response['speed']);
     }
 
     public function getWoeidTest(YahooWeatherAPI $service)
@@ -310,7 +304,7 @@ class YahooWeatherClientTests extends TestCase
 
     public function getResponseData()
     {
-        $response = file_get_contents('tests/response.json');
+        $response = file_get_contents(__DIR__ . '/response.json');
         $response = json_decode($response, true);
 
         return $response;
